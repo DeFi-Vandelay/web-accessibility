@@ -1,0 +1,643 @@
+@layer config, resets, custom, highcontrast;
+
+@layer highcontrast {
+  @media (forced-colors: active) or (prefers-contrast: more) {
+    :root {
+      --font-weight: 400;
+      --font-weight-thin: 400;
+    }
+
+    body {
+      background: transparent;
+    }
+
+    section > :is(ul, ol) {
+      gap: 0;
+    }
+
+    section > ol > li > span:first-child::before,
+    section > ul > li::before {
+      content: "";
+      display: none;
+    }
+
+    section > ol > li h3 span::before {
+      content: counter(grid) ".";
+      counter-increment: grid;
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      transform: translatex(-100%);
+    }
+
+    footer {
+      background-color: transparent;
+    }
+  }
+
+  @media (prefers-contrast: more) {
+    :root {
+      --color-fg: black;
+      --color-fg-heading: black;
+      --color-bg: white;
+      --color-accent: darkgray;
+      --color-border: crimson;
+
+      color: var(--color-fg);
+      background-color: var(--color-bg);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-fg: white;
+        --color-fg-heading: white;
+        --color-bg: black;
+        --color-accent: gold;
+        --color-border: gold;
+      }
+    }
+  }
+}
+
+@layer custom {
+  :root {
+    --color-fg-heading: black;
+    --color-border: #e4e4e4;
+    --border-width: 1px;
+    --border-style: solid;
+    --border: var(--border-width) var(--border-style) var(--color-border);
+
+    text-shadow: 2px 2px 2px var(--color-bg), -2px -2px 2px var(--color-bg);
+    background-color: var(--color-border);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-fg-heading: lightcyan;
+      --color-border: #191b29;
+    }
+  }
+
+  body {
+    min-block-size: 100vh;
+    min-block-size: 100dvb;
+    max-inline-size: 80em;
+    margin-inline: auto;
+    background: linear-gradient(
+      to right,
+      var(--color-bg) 0%,
+      var(--color-bg) calc(25% - var(--border-width) / 2),
+      var(--color-border) calc(25% - var(--border-width) / 2),
+      var(--color-border) calc(25% + var(--border-width) / 2),
+      var(--color-bg) calc(25% + var(--border-width) / 2),
+      var(--color-bg) calc(50% - var(--border-width) / 2),
+      var(--color-border) calc(50% - var(--border-width) / 2),
+      var(--color-border) calc(50% + var(--border-width) / 2),
+      var(--color-bg) calc(50% + var(--border-width) / 2),
+      var(--color-bg) calc(75% - var(--border-width) / 2),
+      var(--color-border) calc(75% - var(--border-width) / 2),
+      var(--color-border) calc(75% + var(--border-width) / 2),
+      var(--color-bg) calc(75% + var(--border-width) / 2)
+    );
+    box-shadow: 0 0 0 var(--border-width) var(--color-border);
+  }
+
+  strong {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  a {
+    color: inherit;
+    text-shadow: none;
+    text-underline-offset: 2px;
+  }
+
+  *:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  p > q[data-hang]::before {
+    position: absolute;
+    transform: translatex(-100%);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  header {
+    color: var(--color-fg-heading);
+  }
+
+  header,
+  footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  header {
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  header div {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column: span 4;
+    font-family: var(--font-serif);
+    font-size: clamp(var(--pt-double-canon), 1em + 12vi, 10em);
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    text-shadow: -1px 0 0 var(--color-accent);
+  }
+
+  header span {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1/1;
+  }
+
+  header h1 {
+    position: relative;
+    grid-column: span 4;
+    padding-block: calc(var(--stack) * 2);
+    padding-inline: var(--gutter);
+    font-weight: var(--font-weight-thin);
+    border-block: var(--border-width) var(--border-style) var(--color-border);
+  }
+
+  header h1,
+  section h3 {
+    font-size: var(--pt-pica);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  section h2 {
+    font-size: clamp(
+      var(--pt-double-english),
+      var(--pt-double-english) * 0.9 + 1vi,
+      var(--pt-double-great-primer)
+    );
+    font-weight: var(--font-weight-thin);
+    text-align: center;
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+
+  section:not(:first-of-type) h2 {
+    -webkit-border-before: var(--border);
+            border-block-start: var(--border);
+  }
+
+  section h2 span {
+    display: inline-block;
+    transform: translatex(-0.5ex);
+    padding-block: 2ex 1ex;
+    color: var(--color-fg); 
+  }
+
+  section h2 span:first-child {
+    padding-inline: 0.5ex 0.25ex;
+    color: var(--color-border);
+  }
+
+  section h2 span:last-child {
+    padding-inline: 0.25ex 0.5ex;
+  }
+
+  section h3 {
+    position: relative;
+    -webkit-margin-after: -0.8ex;
+            margin-block-end: -0.8ex;
+    font-weight: var(--font-weight-medium);
+  }
+
+  section h3::after {
+    content: "";
+    display: inline-block;
+    box-sizing: content-box;
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    transform: translatey(-200%);
+    block-size: calc(var(--border-width) * 2);
+    inline-size: 1.2ch;
+    border-block: var(--border-width) var(--border-style) var(--color-accent);
+  }
+
+  section > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--stack);
+    padding-block: calc(var(--stack) * 2);
+    padding-inline: var(--gutter);
+    -webkit-border-before: var(--border);
+            border-block-start: var(--border);
+  }
+
+  section > div > * {
+    align-self: center;
+    inline-size: 100%;
+    max-inline-size: 20em;
+  }
+
+  @media (min-width: 40.625em) {
+    section > div > * {
+      inline-size: 50%;
+      max-inline-size: unset;
+    }
+  }
+
+  section > :is(ul, ol) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--border-width);
+    row-gap: 0;
+    list-style: none;
+  }
+
+  section > ol {
+    counter-reset: grid;
+  }
+
+  section > :is(ul, ol) > li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 1 49%;
+    position: relative;
+    overflow: hidden;
+    min-inline-size: 20em;
+    padding-inline: var(--gutter);
+    padding-block: calc(var(--stack) * 2);
+    -webkit-border-before: var(--border);
+            border-block-start: var(--border);
+  }
+
+  section > ol > li > span:first-child::before {
+    content: counter(grid);
+    counter-increment: grid;
+    position: absolute;
+    z-index: 0;
+    inset-block-end: -0.35ex;
+    inset-inline-end: 0;
+    font-size: 12em;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    color: var(--color-bg);
+    text-shadow: -1px -1px 0 var(--color-border), 0 -2px 0 var(--color-border);
+    pointer-events: none;
+  }
+
+  @media (min-width: 80em) {
+    section > ol > li > span:first-child::before {
+      inset-block-start: 50%;
+      inset-block-end: unset;
+      inset-inline-end: 0.1em;
+      transform: translatey(-50%);
+    }
+
+    section > ol > li:nth-child(even) > span:first-child::before {
+      inset-inline-start: 0.1em;
+      inset-inline-end: unset;
+    }
+  }
+
+  section > :is(ul, ol) > li > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--stack);
+    position: relative;
+    max-inline-size: 35ch;
+  }
+
+  section > :is(ul, ol) > li > div li + li {
+    -webkit-margin-before: 0.5ex;
+            margin-block-start: 0.5ex;
+  }
+
+  section > ul > li::before {
+    content: "";
+    position: absolute;
+    inline-size: 6em;
+    block-size: 6em;
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    border-radius: 100em;
+    box-shadow: -1px -1px 0 var(--color-border), 0 -2px 0 var(--color-border);
+  }
+
+  @media (min-width: 80em) {
+    section > ul > li::before {
+      inset-block-start: 50%;
+      inset-block-end: unset;
+      inset-inline-end: 1em;
+      transform: translatey(-50%);
+    }
+
+    section > ul > li:nth-child(even)::before {
+      inset-inline-start: 1em;
+      inset-inline-end: unset;
+    }
+  }
+
+  [data-cards] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--stack);
+    list-style: none;
+  }
+
+  [data-cards] li {
+    position: relative;
+    -webkit-margin-before: 0;
+            margin-block-start: 0;
+    padding-block: var(--stack);
+    padding-inline: calc(var(--gutter) * 0.5);
+    font-size: var(--pt-english);
+    font-weight: var(--font-weight-thin);
+    border: var(--border);
+    background-color: var(--color-bg);
+  }
+
+  [data-cards] li a {
+    text-decoration: none;
+  }
+
+  [data-cards] li a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  [data-cards] li a::after {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: -0.7em;
+    transform: translatey(-50%);
+    inline-size: 1.5em;
+    block-size: 1.5em;
+    font-size: 0.8em;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    border: var(--border);
+    background-color: var(--color-bg);
+  }
+
+  @supports (content: "x" / "y") {
+    [data-cards] li a::after {
+      content: "\2192"/ ". Open in new window";
+    }
+  }
+
+  @supports not (content: "x" / "y") {
+    [data-cards] li a::after {
+      content: "\2192";
+      alt: ". Open in new window";
+    }
+  }
+
+  [data-checklist] {
+    list-style: none;
+  }
+
+  [data-checklist] li {
+    position: relative;
+  }
+
+  [data-checklist] li::before {
+    content: "";
+    display: grid;
+    place-items: center;
+    position: absolute;
+    inset-block-start: 0.4ex;
+    transform: translatex(calc(-100% - 0.8ch));
+    inline-size: 1.75ex;
+    block-size: 1.75ex;
+    line-height: 0.6;
+    text-shadow: none;
+    border: var(--border-width) var(--border-style);
+  }
+
+  @supports (content: "x" / "y") {
+    [data-checklist] li::before {
+      content: "\2713"/ "Checkbox bullet. ";
+    }
+  }
+
+  @supports not (content: "x" / "y") {
+    [data-checklist] li::before {
+      content: "\2713";
+      alt: "Checkbox bullet. ";
+    }
+  }
+
+  footer {
+    gap: var(--gutter);
+    -webkit-margin-before: calc(var(--stack) * 6);
+            margin-block-start: calc(var(--stack) * 6);
+    padding-inline: var(--gutter);
+    padding-block: calc(var(--stack) * 2);
+    font-size: var(--pt-bourgeois);
+    text-shadow: none;
+    -webkit-border-before: var(--border);
+            border-block-start: var(--border);
+    background-color: var(--color-border);
+  }
+
+  footer p {
+    display: flex;
+    gap: 0.5ch;
+    max-inline-size: var(--line-length);
+  }
+
+  footer p:first-child {
+    grid-column-start: span 3;
+  }
+
+  footer p:last-child {
+    justify-content: flex-end;
+    white-space: nowrap;
+  }
+
+  iframe {
+    aspect-ratio: 3/4;
+    inline-size: 100%;
+    block-size: auto;
+    border-radius: 1em;
+    border: 0;
+    box-shadow: 0 0 0.5em var(--color-accent);
+  }
+}
+
+@layer config {
+  :root {
+    --color-fg: #404040;
+    --color-bg: #f4f4f4;
+    --color-accent: crimson;
+    --line-length: 75ch;
+    --gutter: clamp(3ch, 2.5vmax, 3.75ch);
+    --stack: clamp(1.25ex, 2.5vmax, 1.75ex);
+    --page-padding-inline: calc((100vi - min(var(--line-length), 80vi)) / 2);
+    --font: "Archivo", system-ui, sans-serif;
+    --font-serif: "Libre Bodoni", "Georgia", serif;
+    --font-weight: 300;
+    --font-weight-thin: 100;
+    --font-weight-medium: 400;
+    --font-weight-semibold: 500;
+    --font-size-min: 90%;
+    --font-size-max: 125%;
+    --leading: 1.35;
+
+    --pt-double-canon: 4.666em;
+    --pt-canon: 3.999em;
+    --pt-double-great-primer: 2.999em;
+    --pt-double-english: 2.333em;
+    --pt-double-pica: 2em;
+    --pt-paragon: 1.666em;
+    --pt-great-primer: 1.5em;
+    --pt-english: 1.166em;
+    --pt-pica: 1em;
+    --pt-small-pica: 0.916em;
+    --pt-long-primer: 0.833em;
+    --pt-bourgeois: 0.75em;
+    --pt-minion: 0.583em;
+
+    font-family: var(--font);
+    font-size: clamp(
+      var(--font-size-min),
+      var(--font-size-min) * 0.9 + 0.5vi,
+      var(--font-size-max)
+    );
+    font-weight: var(--font-weight);
+    line-height: var(--leading);
+    color: var(--color-fg);
+    background-color: var(--color-bg);
+    accent-color: var(--color-accent);
+    color-scheme: dark light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-fg: #93acbf;
+      --color-bg: #0c0d14;
+      --color-accent: blue;
+    }
+  }
+}
+
+@layer resets {
+  *,
+  *::before,
+  *::after {
+    font-feature-settings: "kern";
+    -webkit-font-kerning: normal;
+            font-kerning: normal;
+    -moz-osx-font-smoothing: grayscale !important;
+    -webkit-font-smoothing: antialiased !important;
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--color-accent);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--color-accent);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Modified CSS Variables */
+:root {
+  --color-fg: #404040;
+  --color-bg: #f4f4f4;
+  --color-accent: crimson;
+  /* ... other variables ... */
+}
+
+:root.dark-mode {
+  --color-fg: #93acbf;
+  --color-bg: #0c0d14;
+  --color-accent: blue;
+  /* ... other dark mode variables ... */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) {
+    --color-fg: #93acbf;
+    --color-bg: #0c0d14;
+    --color-accent: blue;
+    /* ... other dark mode variables ... */
+  }
+}
